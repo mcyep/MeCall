@@ -130,7 +130,8 @@ MeCall is a VoIP framework that can be integrate into any iOS app, to extend voi
 
   # s.requires_arc = true
 
-  # s.xcconfig = { "HEADER_SEARCH_PATHS" => "$(SDKROOT)/usr/include/libxml2" }
+  s.xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/MeCall/liblinphone-sdk/apple-darwin/include" }
   # s.dependency "JSONKit", "~> 1.4"
+  # s.header_mappings_dir = 'src/include'
 
 end
