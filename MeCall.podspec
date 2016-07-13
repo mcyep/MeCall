@@ -120,7 +120,7 @@ MeCall is a VoIP framework that can be integrate into any iOS app, to extend voi
 
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
-
+  s.vendored_libraries = "MeCall/**/*.a"
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #

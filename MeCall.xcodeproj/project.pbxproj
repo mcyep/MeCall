@@ -932,6 +932,7 @@
 		A7E85C0B1D3642FA003FD442 /* libmssilk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmssilk.a; sourceTree = "<group>"; };
 		A7E85C0C1D3642FA003FD442 /* libmswebrtc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmswebrtc.a; sourceTree = "<group>"; };
 		A7E85C0D1D3642FA003FD442 /* libmsx264.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libmsx264.a; sourceTree = "<group>"; };
+		A7E85DD61D36477E003FD442 /* contributors.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = contributors.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -993,6 +994,7 @@
 			isa = PBXGroup;
 			children = (
 				A715C1061D362A200019A017 /* MeCall.podspec */,
+				A7E85DD61D36477E003FD442 /* contributors.txt */,
 				A715C1091D362E640019A017 /* LICENSE */,
 				A7B97DA81D36279400EA9BBA /* MeCall */,
 				A7B97DA71D36279400EA9BBA /* Products */,
