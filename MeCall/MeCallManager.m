@@ -7,12 +7,24 @@
 //
 
 #import "MeCallManager.h"
+#import "linphonecore.h"
 
 @implementation MeCallManager
+
+static LinphoneCore* theLinphoneCore;
+
 
 + (NSUInteger)addBoth:(NSUInteger)a :(NSUInteger)b
 {
     return a + b;
+    
+    
+}
+
++ (void)createLinphoneCore {
+    
+    if (theLinphoneCore != nil)
+        return;
 }
 
 @end
