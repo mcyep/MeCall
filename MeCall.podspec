@@ -91,10 +91,9 @@ MeCall is a VoIP framework that can be integrate into any iOS app, to extend voi
   #
 
   s.source_files  = "MeCall/**/*.{h,m}"
+  s.public_header_files = "MeCall/*.h"
 
   # s.exclude_files = "Classes/Exclude"
-  # s.public_header_files = "Classes/**/*.h"
-
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
