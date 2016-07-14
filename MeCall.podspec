@@ -14,22 +14,21 @@ Pod::Spec.new do |s|
   #  can feel like a chore to fill in it's definitely to your advantage. The
   #  summary should be tweet-length, and the description more in depth.
   #
-
-  s.name         = "MeCall"
-  s.version      = "0.0.1"
-  s.summary      = "A VoIP Framework for iOS App"
-
-  # This description is used to generate tags and improve search results.
+  #   The description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
   #   * Try to keep it short, snappy and to the point.
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
+  #
+  # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
+
+  s.name         = "MeCall"
+  s.version      = "0.0.1"
+  s.homepage     = "https://bitbucket.org/u2systems-ios/mecall"
+  s.summary      = "A VoIP Framework for iOS App"
   s.description  = <<-DESC
 MeCall is a VoIP framework that can be integrate into any iOS app, extend with voice calling feature
                    DESC
-
-  s.homepage     = "https://bitbucket.org/u2systems-ios/mecall"
-  # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
 
   # ―――  Spec License  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -38,9 +37,9 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  CocoaPods will detect a license file if there is a named LICENSE*
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
-
-  s.license      = "GPL"
   # s.license      = { :type => "GPL", :file => "LICENSE" }
+
+  s.license = "GPL"
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -52,25 +51,25 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  Specify a social_media_url where others can refer to, for example a twitter
   #  profile URL.
   #
-
-  s.author             = { "Yep Mun Chun" => "munchun.yep@u2systems.com" }
   # Or just: s.author    = "Yep Mun Chun"
   # s.authors            = { "Yep Mun Chun" => "munchun.yep@u2systems.com" }
   # s.social_media_url   = "http://twitter.com/Yep Mun Chun"
+
+  s.author = { "Yep Mun Chun" => "munchun.yep@u2systems.com" }
+
 
   # ――― Platform Specifics ――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  If this Pod runs only on iOS or OS X, then specify the platform and
   #  the deployment target. You can optionally include the target after the platform.
   #
-
-  s.platform     = :ios, "8.0"
-
-  #  When using multiple platforms
+  # When using multiple platforms
   # s.ios.deployment_target = "5.0"
   # s.osx.deployment_target = "10.7"
   # s.watchos.deployment_target = "2.0"
   # s.tvos.deployment_target = "9.0"
+
+  s.platform = :ios, "8.0"
 
 
   # ――― Source Location ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -79,7 +78,7 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  s.source       = { :git => "https://bitbucket.org/u2systems-ios/mecall.git", :tag => "#{s.version}" }
+  s.source = { :git => "https://bitbucket.org/u2systems-ios/mecall.git", :tag => "#{s.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -89,11 +88,12 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  For header files it will include any header in the folder.
   #  Not including the public_header_files will make all headers public.
   #
-
-  s.source_files  = "MeCall/**/*.{h,m}"
-  s.public_header_files = "MeCall/*.h"
-
   # s.exclude_files = "Classes/Exclude"
+
+  s.source_files         = "MeCall/**/*.{h,m}"
+  s.public_header_files  = "MeCall/*.h"
+  s.private_header_files = "MeCall/liblinphone-sdk/apple-darwin/include/**/*.h"
+
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -102,10 +102,8 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  You can preserve files from being cleaned, please don't preserve
   #  non-essential files like tests, examples and documentation.
   #
-
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"
-
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
 
@@ -114,24 +112,25 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  Link your library with frameworks, or libraries. Libraries do not include
   #  the lib prefix of their name.
   #
-
   # s.framework  = "SomeFramework"
   # s.frameworks = "SomeFramework", "AnotherFramework"
-
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
-  s.vendored_libraries = "MeCall/**/*.a"
+
+  s.vendored_libraries = "MeCall/liblinphone-sdk/apple-darwin/lib/**/*.a"
+
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
   #  If your library depends on compiler flags you can set them in the xcconfig hash
   #  where they will only apply to your library. If you depend on other Podspecs
   #  you can include multiple dependencies to ensure it works.
-
+  #
   # s.requires_arc = true
-
-  s.xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/MeCall/liblinphone-sdk/apple-darwin/include" }
   # s.dependency "JSONKit", "~> 1.4"
   # s.header_mappings_dir = 'src/include'
+
+  s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/MeCall/liblinphone-sdk/apple-darwin/include" }
+
 
 end
