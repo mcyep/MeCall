@@ -25,7 +25,7 @@ Pod::Spec.new do |s|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   s.description  = <<-DESC
-MeCall is a VoIP framework that can be integrate into any iOS app, to extend voice calling feature
+MeCall is a VoIP framework that can be integrate into any iOS app, extend with voice calling feature
                    DESC
 
   s.homepage     = "https://bitbucket.org/u2systems-ios/mecall"
