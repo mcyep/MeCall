@@ -88,7 +88,7 @@ MeCall is VoIP framework based on SIP protocol that can be integrate into any iO
   #
   # s.exclude_files = "Classes/Exclude"
 
-  s.source_files         = "MeCall/**/*.{h,m}"
+  s.source_files         = "MeCall/**/*.{h,m}", "liblinphone-sdk/apple-darwin/include/**/*.h"
   s.public_header_files  = "MeCall/**/*.h"
   s.private_header_files = "liblinphone-sdk/apple-darwin/include/**/*.h"
 
