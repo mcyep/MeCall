@@ -23,11 +23,11 @@ Pod::Spec.new do |s|
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
   s.name         = "MeCall"
-  s.version      = "0.0.1"
+  s.version      = "0.0.2"
   s.homepage     = "https://bitbucket.org/u2systems-ios/mecall"
   s.summary      = "A VoIP Framework for iOS App"
   s.description  = <<-DESC
-MeCall is a VoIP framework that can be integrate into any iOS app, extend with voice calling feature
+MeCall is VoIP framework based on SIP protocol that can be integrate into any iOS app, extend with voice calling feature
                    DESC
 
 
@@ -37,9 +37,7 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  CocoaPods will detect a license file if there is a named LICENSE*
   #  Popular ones are 'MIT', 'BSD' and 'Apache License, Version 2.0'.
   #
-  # s.license      = { :type => "GPL", :file => "LICENSE" }
-
-  s.license = "GPL"
+  s.license      = { :type => "GPLv2", :file => "LICENSE" }
 
 
   # ――― Author Metadata  ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -91,8 +89,8 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   # s.exclude_files = "Classes/Exclude"
 
   s.source_files         = "MeCall/**/*.{h,m}"
-  s.public_header_files  = "MeCall/*.h"
-  s.private_header_files = "MeCall/liblinphone-sdk/apple-darwin/include/**/*.h"
+  s.public_header_files  = "MeCall/**/*.h"
+  s.private_header_files = "liblinphone-sdk/apple-darwin/include/**/*.h"
 
 
   # ――― Resources ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -106,6 +104,8 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   # s.resources = "Resources/*.png"
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
 
+  s.resources = "Resources/**/*"
+
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
   #
@@ -113,11 +113,11 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   #  the lib prefix of their name.
   #
   # s.framework  = "SomeFramework"
-  # s.frameworks = "SomeFramework", "AnotherFramework"
   # s.library   = "iconv"
-  # s.libraries = "iconv", "xml2"
 
-  s.vendored_libraries = "MeCall/liblinphone-sdk/apple-darwin/lib/**/*.a"
+  s.frameworks = "CoreMedia", "VideoToolbox", "AVFoundation", "AudioToolbox"
+  s.libraries = "iconv", "xml2", "z", "resolv", "stdc++", "sqlite3"
+  s.vendored_libraries = "liblinphone-sdk/apple-darwin/lib/**/*.a"
 
 
   # ――― Project Settings ――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
@@ -130,7 +130,7 @@ MeCall is a VoIP framework that can be integrate into any iOS app, extend with v
   # s.dependency "JSONKit", "~> 1.4"
   # s.header_mappings_dir = 'src/include'
 
-  s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/MeCall/liblinphone-sdk/apple-darwin/include" }
+  s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/liblinphone-sdk/apple-darwin/include" }
 
 
 end

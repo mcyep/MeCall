@@ -10,6 +10,6 @@
 
 @interface MeCallManager : NSObject
 
-+ (NSUInteger)addBoth:(NSUInteger)a :(NSUInteger)b;
+extern NSString *const MCIncomingCallNotification;
 
 @end
