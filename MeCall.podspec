@@ -130,7 +130,11 @@ MeCall is VoIP framework based on SIP protocol that can be integrate into any iO
   # s.dependency "JSONKit", "~> 1.4"
   # s.header_mappings_dir = 'src/include'
 
-  s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/liblinphone-sdk/apple-darwin/include" }
+# Release
+# s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/liblinphone-sdk/apple-darwin/include" }
+
+# pod lib lint
+s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "/Users/u2systems/Desktop/MeCall/liblinphone-sdk/apple-darwin/include" }
 
 
 end
