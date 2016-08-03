@@ -25,6 +25,9 @@ static LinphoneCore* linphoneCore = nil;
 
 + (void)initialize
 {
+    linphone_core_set_log_handler(mecall_log_handler);
+    [self setLogLevel:MCLogLevel_DEBUG];
+    
     NSString *defaultConfig = [[NSBundle mainBundle] pathForResource:@"linphonerc" ofType:nil];
     NSString *factoryConfig = [[NSBundle mainBundle] pathForResource:@"linphonerc-factory" ofType:nil];
     linphoneCore = linphone_core_new(&linphonec_vtable, [defaultConfig UTF8String], [factoryConfig UTF8String], nil);
@@ -42,7 +45,6 @@ static LinphoneCore* linphoneCore = nil;
     linphone_core_set_ringback(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"ringback" ofType:@"wav"] UTF8String]);
     linphone_core_set_play_file(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"hold" ofType:@"mkv"] UTF8String]);
     
-    [MeCallManager setupAudioCodec:@[@"g722",@"pcma"]];
     [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(iterate) userInfo:nil repeats:YES];
 }
 
@@ -207,6 +209,17 @@ static LinphoneCore* linphoneCore = nil;
     return NULL;
 }
 
++ (void)setLogLevel:(MCLogLevel)level
+{
+    linphone_core_set_log_level((OrtpLogLevel)level);
+}
+
+static void mecall_log_handler(const char *domain, OrtpLogLevel lev, const char *fmt, va_list args)
+{
+    NSString *format = [[NSString alloc] initWithUTF8String:fmt];
+    NSString *formatedString = [[NSString alloc] initWithFormat:format arguments:args];
+    NSLog(@"%@", [formatedString stringByReplacingOccurrencesOfString:@"\r\n" withString:@"\n"]);
+}
 
 static void mecall_registration_state_changed(LinphoneCore *lc, LinphoneProxyConfig *cfg, LinphoneRegistrationState state, const char *message)
 {

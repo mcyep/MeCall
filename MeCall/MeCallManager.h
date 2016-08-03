@@ -13,21 +13,31 @@
 extern NSString *const MCNotification_Registration;
 extern NSString *const MCNotification_Call;
 
-typedef enum _MCSipTransport {
+typedef enum {
+    MCLogLevel_DEBUG=1,
+    MCLogLevel_TRACE=1<<1,
+    MCLogLevel_MESSAGE=1<<2,
+    MCLogLevel_WARNING=1<<3,
+    MCLogLevel_ERROR=1<<4,
+    MCLogLevel_FATAL=1<<5,
+    MCLogLevel_END=1<<6
+} MCLogLevel;
+
+typedef enum {
     MCSipTransport_UDP,
     MCSipTransport_TCP,
     MCSipTransport_TLS,
     MCSipTransport_DTLS
 } MCSipTransport;
 
-typedef enum _MCMediaTransport {
+typedef enum {
     MCMediaTransport_RTP,
     MCMediaTransport_SRTP,
     MCMediaTransport_ZRTP,
     MCMediaTransport_DTLS
 } MCMediaTransport;
 
-typedef enum _MCRegistrationState {
+typedef enum {
     MCRegistrationNone,
     MCRegistrationProgress,
     MCRegistrationOk,
@@ -35,7 +45,7 @@ typedef enum _MCRegistrationState {
     MCRegistrationFailed
 } MCRegistrationState;
 
-typedef enum _MCCallState{
+typedef enum {
     MCCallIdle,
     MCCallIncomingReceived,
     MCCallOutgoingInit,
@@ -59,7 +69,7 @@ typedef enum _MCCallState{
     MCCallEarlyUpdating
 } MCCallState;
 
-typedef enum _MCReason{
+typedef enum {
     MCReasonNone,
     MCReasonNoResponse,
     MCReasonForbidden,
@@ -100,6 +110,7 @@ typedef enum _MCReason{
 + (void)pauseCall:(NSString*)remote;
 + (void)resumeCall:(NSString*)remote;
 
++ (void)setLogLevel:(MCLogLevel)level;
 + (void)printAudioCodecSequence;
 
 @end
