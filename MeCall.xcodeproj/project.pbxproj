@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7836A9B1D49B4C3003F8736 /* notes_of_the_optimistic.caf in Resources */ = {isa = PBXBuildFile; fileRef = A7836A9A1D49B4C3003F8736 /* notes_of_the_optimistic.caf */; };
+		A7836A9E1D49B4F9003F8736 /* hold.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A7836A9C1D49B4F9003F8736 /* hold.mkv */; };
+		A7836A9F1D49B4F9003F8736 /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = A7836A9D1D49B4F9003F8736 /* ringback.wav */; };
 		A79BC90A1D41C46800939716 /* antlr3.h in Headers */ = {isa = PBXBuildFile; fileRef = A79BC6FC1D41C46800939716 /* antlr3.h */; };
 		A79BC90B1D41C46800939716 /* antlr3baserecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = A79BC6FD1D41C46800939716 /* antlr3baserecognizer.h */; };
 		A79BC90C1D41C46800939716 /* antlr3basetree.h in Headers */ = {isa = PBXBuildFile; fileRef = A79BC6FE1D41C46800939716 /* antlr3basetree.h */; };
@@ -511,6 +514,9 @@
 /* Begin PBXFileReference section */
 		A715C1061D362A200019A017 /* MeCall.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = MeCall.podspec; sourceTree = SOURCE_ROOT; };
 		A715C1091D362E640019A017 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
+		A7836A9A1D49B4C3003F8736 /* notes_of_the_optimistic.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notes_of_the_optimistic.caf; sourceTree = "<group>"; };
+		A7836A9C1D49B4F9003F8736 /* hold.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = hold.mkv; sourceTree = "<group>"; };
+		A7836A9D1D49B4F9003F8736 /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ringback.wav; sourceTree = "<group>"; };
 		A79BC6FC1D41C46800939716 /* antlr3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = antlr3.h; sourceTree = "<group>"; };
 		A79BC6FD1D41C46800939716 /* antlr3baserecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = antlr3baserecognizer.h; sourceTree = "<group>"; };
 		A79BC6FE1D41C46800939716 /* antlr3basetree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = antlr3basetree.h; sourceTree = "<group>"; };
@@ -1947,6 +1953,9 @@
 			children = (
 				A7B074D81D40D82200C7F1B9 /* linphonerc */,
 				A7B074D91D40D82200C7F1B9 /* linphonerc-factory */,
+				A7836A9A1D49B4C3003F8736 /* notes_of_the_optimistic.caf */,
+				A7836A9C1D49B4F9003F8736 /* hold.mkv */,
+				A7836A9D1D49B4F9003F8736 /* ringback.wav */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -2492,7 +2501,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				A7B074DA1D40D82200C7F1B9 /* linphonerc in Resources */,
+				A7836A9B1D49B4C3003F8736 /* notes_of_the_optimistic.caf in Resources */,
+				A7836A9F1D49B4F9003F8736 /* ringback.wav in Resources */,
 				A7B074DB1D40D82200C7F1B9 /* linphonerc-factory in Resources */,
+				A7836A9E1D49B4F9003F8736 /* hold.mkv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
