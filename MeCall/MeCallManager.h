@@ -12,6 +12,10 @@
 
 extern NSString *const MCNotification_Registration;
 extern NSString *const MCNotification_Call;
+extern NSString *const kRegistrationState;
+extern NSString *const kRegistrationFailReason;
+extern NSString *const kCallState;
+extern NSString *const kCallRemote;
 
 typedef enum {
     MCLogLevel_DEBUG=1,

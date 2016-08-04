@@ -13,13 +13,16 @@
 
 NSString *const MCNotification_Registration = @"MCNotification_Registration";
 NSString *const MCNotification_Call         = @"MCNotification_Call";
+NSString *const kRegistrationState      = @"kRegistrationState";
+NSString *const kRegistrationFailReason = @"kRegistrationFailReason";
+NSString *const kCallState              = @"kCallState";
+NSString *const kCallRemote             = @"kCallRemote";
 
 extern void libmssilk_init(MSFactory *factory);
 extern void libmsamr_init(MSFactory *factory);
 extern void libmsx264_init(MSFactory *factory);
 extern void libmsopenh264_init(MSFactory *factory);
 extern void libmsbcg729_init(MSFactory *factory);
-extern void libmswebrtc_init(MSFactory *factory);
 
 static LinphoneCore* linphoneCore = nil;
 
@@ -224,8 +227,8 @@ static void mecall_registration_state_changed(LinphoneCore *lc, LinphoneProxyCon
 {
     NSLog(@"mecall_registration_state_changed: %s (message: %s)", linphone_registration_state_to_string(state), message);
     LinphoneReason reason = linphone_proxy_config_get_error(cfg);
-    NSDictionary *dict = @{@"state":[NSNumber numberWithInt:state],
-                           @"failReason":[NSNumber numberWithInt:reason]};
+    NSDictionary *dict = @{kRegistrationState:[NSNumber numberWithInt:state],
+                           kRegistrationFailReason:[NSNumber numberWithInt:reason]};
     [[NSNotificationCenter defaultCenter] postNotificationName:MCNotification_Registration object:nil userInfo:dict];
 }
 static void mecall_call_state_changed(LinphoneCore *lc, LinphoneCall *call, LinphoneCallState state, const char *message)
@@ -233,8 +236,8 @@ static void mecall_call_state_changed(LinphoneCore *lc, LinphoneCall *call, Linp
     NSLog(@"mecall_call_state_changed: %s (message: %s)", linphone_call_state_to_string(state), message);
     const LinphoneAddress *address = linphone_call_get_remote_address(call);
     const char* username = linphone_address_get_username(address);
-    NSDictionary *dict = @{@"state":[NSNumber numberWithInt:state],
-                           @"remote":[NSString stringWithUTF8String:username]};
+    NSDictionary *dict = @{kCallState:[NSNumber numberWithInt:state],
+                           kCallRemote:[NSString stringWithUTF8String:username]};
     [[NSNotificationCenter defaultCenter] postNotificationName:MCNotification_Call object:nil userInfo:dict];
 }
 static void mecall_global_state_changed(LinphoneCore *lc, LinphoneGlobalState gstate, const char *message) {
