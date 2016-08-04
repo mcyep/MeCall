@@ -13,10 +13,10 @@
 
 NSString *const MCNotification_Registration = @"MCNotification_Registration";
 NSString *const MCNotification_Call         = @"MCNotification_Call";
-NSString *const kRegistrationState      = @"kRegistrationState";
-NSString *const kRegistrationFailReason = @"kRegistrationFailReason";
-NSString *const kCallState              = @"kCallState";
-NSString *const kCallRemote             = @"kCallRemote";
+NSString *const kRegistrationState          = @"kRegistrationState";
+NSString *const kRegistrationFailReason     = @"kRegistrationFailReason";
+NSString *const kCallState                  = @"kCallState";
+NSString *const kCallRemote                 = @"kCallRemote";
 
 extern void libmssilk_init(MSFactory *factory);
 extern void libmsamr_init(MSFactory *factory);
@@ -58,6 +58,7 @@ static LinphoneCore* linphoneCore = nil;
 {
     linphone_core_clear_proxy_config(linphoneCore);
     linphone_core_clear_all_auth_info(linphoneCore);
+    linphone_core_set_primary_contact(linphoneCore, [sipIdentity UTF8String]);
     LinphoneProxyConfig* proxyCfg = linphone_core_create_proxy_config(linphoneCore);
     LinphoneAddress *identity = linphone_address_new([sipIdentity UTF8String]);
     linphone_proxy_config_set_identity_address(proxyCfg, identity);
@@ -231,6 +232,7 @@ static void mecall_registration_state_changed(LinphoneCore *lc, LinphoneProxyCon
                            kRegistrationFailReason:[NSNumber numberWithInt:reason]};
     [[NSNotificationCenter defaultCenter] postNotificationName:MCNotification_Registration object:nil userInfo:dict];
 }
+
 static void mecall_call_state_changed(LinphoneCore *lc, LinphoneCall *call, LinphoneCallState state, const char *message)
 {
     NSLog(@"mecall_call_state_changed: %s (message: %s)", linphone_call_state_to_string(state), message);
@@ -240,6 +242,7 @@ static void mecall_call_state_changed(LinphoneCore *lc, LinphoneCall *call, Linp
                            kCallRemote:[NSString stringWithUTF8String:username]};
     [[NSNotificationCenter defaultCenter] postNotificationName:MCNotification_Call object:nil userInfo:dict];
 }
+
 static void mecall_global_state_changed(LinphoneCore *lc, LinphoneGlobalState gstate, const char *message) {
     NSLog(@"mecall_global_state_changed: %s (message: %s)", linphone_global_state_to_string(gstate), message);
 }
