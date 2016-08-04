@@ -38,7 +38,6 @@ static LinphoneCore* linphoneCore = nil;
     libmsx264_init(f);
     libmsopenh264_init(f);
     libmsbcg729_init(f);
-    libmswebrtc_init(f);
     linphone_core_reload_ms_plugins(linphoneCore, NULL);
     
     linphone_core_set_ring(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"notes_of_the_optimistic" ofType:@"caf"] UTF8String]);
