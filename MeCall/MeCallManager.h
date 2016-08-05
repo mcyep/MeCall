@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MeCallManager : NSObject
+@interface MeCall : NSObject
 
 extern NSString *const MCNotification_Registration;
 extern NSString *const MCNotification_Call;
@@ -17,63 +17,63 @@ extern NSString *const kRegistrationFailReason;
 extern NSString *const kCallState;
 extern NSString *const kCallRemote;
 
-typedef enum {
-    MCLogLevel_DEBUG=1,
-    MCLogLevel_TRACE=1<<1,
-    MCLogLevel_MESSAGE=1<<2,
-    MCLogLevel_WARNING=1<<3,
-    MCLogLevel_ERROR=1<<4,
-    MCLogLevel_FATAL=1<<5,
-    MCLogLevel_END=1<<6
-} MCLogLevel;
+typedef NS_ENUM(NSUInteger, MCLogLevel) {
+    MCLogLevelDEBUG=1,
+    MCLogLevelTRACE=1<<1,
+    MCLogLevelMESSAGE=1<<2,
+    MCLogLevelWARNING=1<<3,
+    MCLogLevelERROR=1<<4,
+    MCLogLevelFATAL=1<<5,
+    MCLogLevelEND=1<<6
+};
 
-typedef enum {
-    MCSipTransport_UDP,
-    MCSipTransport_TCP,
-    MCSipTransport_TLS,
-    MCSipTransport_DTLS
-} MCSipTransport;
+typedef NS_ENUM(NSUInteger, MCSipTransport) {
+    MCSipTransportUDP,
+    MCSipTransportTCP,
+    MCSipTransportTLS,
+    MCSipTransportDTLS
+};
 
-typedef enum {
-    MCMediaTransport_RTP,
-    MCMediaTransport_SRTP,
-    MCMediaTransport_ZRTP,
-    MCMediaTransport_DTLS
-} MCMediaTransport;
+typedef NS_ENUM(NSUInteger, MCMediaTransport) {
+    MCMediaTransportRTP,
+    MCMediaTransportSRTP,
+    MCMediaTransportZRTP,
+    MCMediaTransportDTLS
+};
 
-typedef enum {
-    MCRegistrationNone,
-    MCRegistrationProgress,
-    MCRegistrationOk,
-    MCRegistrationCleared,
-    MCRegistrationFailed
-} MCRegistrationState;
+typedef NS_ENUM(NSUInteger, MCRegistrationState) {
+    MCRegistrationStateNone,
+    MCRegistrationStateProgress,
+    MCRegistrationStateOk,
+    MCRegistrationStateCleared,
+    MCRegistrationStateFailed
+};
 
-typedef enum {
-    MCCallIdle,
-    MCCallIncomingReceived,
-    MCCallOutgoingInit,
-    MCCallOutgoingProgress,
-    MCCallOutgoingRinging,
-    MCCallOutgoingEarlyMedia,
-    MCCallConnected,
-    MCCallStreamsRunning,
-    MCCallPausing,
-    MCCallPaused,
-    MCCallResuming,
-    MCCallRefered,
-    MCCallError,
-    MCCallEnd,
-    MCCallPausedByRemote,
-    MCCallUpdatedByRemote,
-    MCCallIncomingEarlyMedia,
-    MCCallUpdating,
-    MCCallReleased,
-    MCCallEarlyUpdatedByRemote,
-    MCCallEarlyUpdating
-} MCCallState;
+typedef NS_ENUM(NSUInteger, MCCallState) {
+    MCCallStateIdle,
+    MCCallStateIncomingReceived,
+    MCCallStateOutgoingInit,
+    MCCallStateOutgoingProgress,
+    MCCallStateOutgoingRinging,
+    MCCallStateOutgoingEarlyMedia,
+    MCCallStateConnected,
+    MCCallStateStreamsRunning,
+    MCCallStatePausing,
+    MCCallStatePaused,
+    MCCallStateResuming,
+    MCCallStateRefered,
+    MCCallStateError,
+    MCCallStateEnd,
+    MCCallStatePausedByRemote,
+    MCCallStateUpdatedByRemote,
+    MCCallStateIncomingEarlyMedia,
+    MCCallStateUpdating,
+    MCCallStateReleased,
+    MCCallStateEarlyUpdatedByRemote,
+    MCCallStateEarlyUpdating
+};
 
-typedef enum {
+typedef NS_ENUM(NSUInteger, MCReason) {
     MCReasonNone,
     MCReasonNoResponse,
     MCReasonForbidden,
@@ -95,7 +95,7 @@ typedef enum {
     MCReasonBadGateway,
     MCReasonServerTimeout,
     MCReasonUnknown
-} MCReason;
+};
 
 + (void)setupProxyConfig:(NSString*)sipUsername sipPassword:(NSString*)sipPassword sipServer:(NSString*)sipServer sipIdentity:(NSString*)sipIdentity;
 + (void)setupSipTransport:(MCSipTransport)sipTransport sipPort:(int)sipPort userAgentName:(NSString*)userAgentName userAgentVersion:(NSString*)userAgentVersion;

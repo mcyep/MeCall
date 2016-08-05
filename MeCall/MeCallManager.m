@@ -9,7 +9,7 @@
 #import "MeCallManager.h"
 #import "linphonecore.h"
 
-@implementation MeCallManager
+@implementation MeCall
 
 NSString *const MCNotification_Registration = @"MCNotification_Registration";
 NSString *const MCNotification_Call         = @"MCNotification_Call";
@@ -29,7 +29,7 @@ static LinphoneCore* linphoneCore = nil;
 + (void)initialize
 {
     linphone_core_set_log_handler(mecall_log_handler);
-    [self setLogLevel:MCLogLevel_DEBUG];
+    [self setLogLevel:MCLogLevelDEBUG];
     
     NSString *defaultConfig = [[NSBundle mainBundle] pathForResource:@"linphonerc" ofType:nil];
     NSString *factoryConfig = [[NSBundle mainBundle] pathForResource:@"linphonerc-factory" ofType:nil];
@@ -46,6 +46,7 @@ static LinphoneCore* linphoneCore = nil;
     linphone_core_set_ring(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"notes_of_the_optimistic" ofType:@"caf"] UTF8String]);
     linphone_core_set_ringback(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"ringback" ofType:@"wav"] UTF8String]);
     linphone_core_set_play_file(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"hold" ofType:@"mkv"] UTF8String]);
+    linphone_core_enable_ipv6(linphoneCore, FALSE);
     
     [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(iterate) userInfo:nil repeats:YES];
 }
@@ -77,20 +78,17 @@ static LinphoneCore* linphoneCore = nil;
 + (void)setupSipTransport:(MCSipTransport)sipTransport sipPort:(int)sipPort userAgentName:(NSString*)userAgentName userAgentVersion:(NSString*)userAgentVersion
 {
     LCSipTransports sipTransports = {0,0,0,0};
-    sipTransports.udp_port  = (sipTransport == MCSipTransport_UDP)  ? sipPort : 0;
-    sipTransports.tcp_port  = (sipTransport == MCSipTransport_TCP)  ? sipPort : 0;
-    sipTransports.tls_port  = (sipTransport == MCSipTransport_TLS)  ? sipPort : 0;
-    sipTransports.dtls_port = (sipTransport == MCSipTransport_DTLS) ? sipPort : 0;
+    sipTransports.udp_port  = (sipTransport == MCSipTransportUDP)  ? sipPort : 0;
+    sipTransports.tcp_port  = (sipTransport == MCSipTransportTCP)  ? sipPort : 0;
+    sipTransports.tls_port  = (sipTransport == MCSipTransportTLS)  ? sipPort : 0;
+    sipTransports.dtls_port = (sipTransport == MCSipTransportDTLS) ? sipPort : 0;
     linphone_core_set_sip_transports(linphoneCore, &sipTransports);
     linphone_core_set_user_agent(linphoneCore, [userAgentName UTF8String], [userAgentVersion UTF8String]);
 }
 
 + (void)setupMediaTransport:(MCMediaTransport)mediaTransport audioPort:(int)audioPort
 {
-    LinphoneMediaEncryption encryption = LinphoneMediaEncryptionNone;
-    if (mediaTransport == MCMediaTransport_SRTP) encryption = LinphoneMediaEncryptionSRTP;
-    if (mediaTransport == MCMediaTransport_ZRTP) encryption = LinphoneMediaEncryptionZRTP;
-    if (mediaTransport == MCMediaTransport_DTLS) encryption = LinphoneMediaEncryptionDTLS;
+    LinphoneMediaEncryption encryption = (LinphoneMediaEncryption)mediaTransport;
     linphone_core_set_media_encryption(linphoneCore, encryption);
     linphone_core_set_audio_port(linphoneCore, audioPort);
 }
