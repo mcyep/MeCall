@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
   s.name         = "MeCall"
-  s.version      = "0.0.8"
+  s.version      = "0.0.9"
   s.homepage     = "https://bitbucket.org/u2systems-ios/mecall"
   s.summary      = "A VoIP Framework for iOS App"
   s.description  = <<-DESC
@@ -103,8 +103,7 @@ MeCall is VoIP framework based on SIP protocol that can be integrate into any iO
   # s.resource  = "icon.png"
   # s.resources = "Resources/*.png"
   # s.preserve_paths = "FilesToSave", "MoreFilesToSave"
-
-  s.resources = "Resources/**/*"
+  # s.resources = "Resources/**/*"
 
 
   # ――― Project Linking ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
