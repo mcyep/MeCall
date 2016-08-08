@@ -7,9 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A7836A9B1D49B4C3003F8736 /* notes_of_the_optimistic.caf in Resources */ = {isa = PBXBuildFile; fileRef = A7836A9A1D49B4C3003F8736 /* notes_of_the_optimistic.caf */; };
-		A7836A9E1D49B4F9003F8736 /* hold.mkv in Resources */ = {isa = PBXBuildFile; fileRef = A7836A9C1D49B4F9003F8736 /* hold.mkv */; };
-		A7836A9F1D49B4F9003F8736 /* ringback.wav in Resources */ = {isa = PBXBuildFile; fileRef = A7836A9D1D49B4F9003F8736 /* ringback.wav */; };
 		A79BC90A1D41C46800939716 /* antlr3.h in Headers */ = {isa = PBXBuildFile; fileRef = A79BC6FC1D41C46800939716 /* antlr3.h */; };
 		A79BC90B1D41C46800939716 /* antlr3baserecognizer.h in Headers */ = {isa = PBXBuildFile; fileRef = A79BC6FD1D41C46800939716 /* antlr3baserecognizer.h */; };
 		A79BC90C1D41C46800939716 /* antlr3basetree.h in Headers */ = {isa = PBXBuildFile; fileRef = A79BC6FE1D41C46800939716 /* antlr3basetree.h */; };
@@ -504,8 +501,6 @@
 		A7B074BE1D40998C00C7F1B9 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B074BD1D40998C00C7F1B9 /* CoreMedia.framework */; };
 		A7B074C41D40A84800C7F1B9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B074C31D40A84800C7F1B9 /* libz.tbd */; };
 		A7B074C61D40A87200C7F1B9 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A7B074C51D40A87200C7F1B9 /* libresolv.tbd */; };
-		A7B074DA1D40D82200C7F1B9 /* linphonerc in Resources */ = {isa = PBXBuildFile; fileRef = A7B074D81D40D82200C7F1B9 /* linphonerc */; };
-		A7B074DB1D40D82200C7F1B9 /* linphonerc-factory in Resources */ = {isa = PBXBuildFile; fileRef = A7B074D91D40D82200C7F1B9 /* linphonerc-factory */; };
 		A7B97DAA1D36279400EA9BBA /* MeCall.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B97DA91D36279400EA9BBA /* MeCall.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A7B97DB31D36281A00EA9BBA /* MeCallManager.h in Headers */ = {isa = PBXBuildFile; fileRef = A7B97DB11D36281A00EA9BBA /* MeCallManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		A7B97DB41D36281A00EA9BBA /* MeCallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A7B97DB21D36281A00EA9BBA /* MeCallManager.m */; };
@@ -514,9 +509,6 @@
 /* Begin PBXFileReference section */
 		A715C1061D362A200019A017 /* MeCall.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = MeCall.podspec; sourceTree = SOURCE_ROOT; };
 		A715C1091D362E640019A017 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = SOURCE_ROOT; };
-		A7836A9A1D49B4C3003F8736 /* notes_of_the_optimistic.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = notes_of_the_optimistic.caf; sourceTree = "<group>"; };
-		A7836A9C1D49B4F9003F8736 /* hold.mkv */ = {isa = PBXFileReference; lastKnownFileType = file; path = hold.mkv; sourceTree = "<group>"; };
-		A7836A9D1D49B4F9003F8736 /* ringback.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = ringback.wav; sourceTree = "<group>"; };
 		A79BC6FC1D41C46800939716 /* antlr3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = antlr3.h; sourceTree = "<group>"; };
 		A79BC6FD1D41C46800939716 /* antlr3baserecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = antlr3baserecognizer.h; sourceTree = "<group>"; };
 		A79BC6FE1D41C46800939716 /* antlr3basetree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = antlr3basetree.h; sourceTree = "<group>"; };
@@ -1011,8 +1003,6 @@
 		A7B074BD1D40998C00C7F1B9 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		A7B074C31D40A84800C7F1B9 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A7B074C51D40A87200C7F1B9 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
-		A7B074D81D40D82200C7F1B9 /* linphonerc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = linphonerc; sourceTree = "<group>"; };
-		A7B074D91D40D82200C7F1B9 /* linphonerc-factory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linphonerc-factory"; sourceTree = "<group>"; };
 		A7B97DA61D36279400EA9BBA /* MeCall.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MeCall.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A7B97DA91D36279400EA9BBA /* MeCall.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeCall.h; sourceTree = "<group>"; };
 		A7B97DAB1D36279400EA9BBA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1948,18 +1938,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		A7B074D71D40D82200C7F1B9 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				A7B074D81D40D82200C7F1B9 /* linphonerc */,
-				A7B074D91D40D82200C7F1B9 /* linphonerc-factory */,
-				A7836A9A1D49B4C3003F8736 /* notes_of_the_optimistic.caf */,
-				A7836A9C1D49B4F9003F8736 /* hold.mkv */,
-				A7836A9D1D49B4F9003F8736 /* ringback.wav */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		A7B97D9C1D36279400EA9BBA = {
 			isa = PBXGroup;
 			children = (
@@ -1968,7 +1946,6 @@
 				A715C1091D362E640019A017 /* LICENSE */,
 				A7B97DA81D36279400EA9BBA /* MeCall */,
 				A79BC6F91D41C46800939716 /* liblinphone-sdk */,
-				A7B074D71D40D82200C7F1B9 /* Resources */,
 				A7B074B41D40973800C7F1B9 /* Frameworks */,
 				A7B97DA71D36279400EA9BBA /* Products */,
 			);
@@ -2500,11 +2477,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A7B074DA1D40D82200C7F1B9 /* linphonerc in Resources */,
-				A7836A9B1D49B4C3003F8736 /* notes_of_the_optimistic.caf in Resources */,
-				A7836A9F1D49B4F9003F8736 /* ringback.wav in Resources */,
-				A7B074DB1D40D82200C7F1B9 /* linphonerc-factory in Resources */,
-				A7836A9E1D49B4F9003F8736 /* hold.mkv in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

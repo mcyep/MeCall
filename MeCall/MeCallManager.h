@@ -104,8 +104,6 @@ typedef NS_ENUM(NSUInteger, MCReason) {
 
 + (void)startRegistering:(int)expire;
 + (void)stopRegistering;
-+ (MCRegistrationState)sipRegistrationState;
-+ (MCReason)sipRegistrationFailReason;
 
 + (void)acceptCall:(NSString*)remote;
 + (void)declineCall:(NSString*)remote reason:(MCReason)reason;
@@ -115,6 +113,14 @@ typedef NS_ENUM(NSUInteger, MCReason) {
 + (void)resumeCall:(NSString*)remote;
 
 + (void)setLogLevel:(MCLogLevel)level;
++ (void)setRingTone:(NSString*)path;
++ (void)setRingbackTone:(NSString*)path;
++ (void)setHoldTone:(NSString*)path;
++ (void)enableIPv6:(BOOL)enable;
++ (void)setRootCA:(NSString*)path;
 + (void)printAudioCodecSequence;
+
++ (MCRegistrationState)sipRegistrationState;
++ (MCReason)sipRegistrationFailReason;
 
 @end

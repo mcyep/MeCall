@@ -23,7 +23,7 @@ Pod::Spec.new do |s|
   # s.screenshots  = "www.example.com/screenshots_1.gif", "www.example.com/screenshots_2.gif"
 
   s.name         = "MeCall"
-  s.version      = "0.0.7"
+  s.version      = "0.0.8"
   s.homepage     = "https://bitbucket.org/u2systems-ios/mecall"
   s.summary      = "A VoIP Framework for iOS App"
   s.description  = <<-DESC
@@ -130,10 +130,10 @@ MeCall is VoIP framework based on SIP protocol that can be integrate into any iO
   # s.dependency "JSONKit", "~> 1.4"
   # s.header_mappings_dir = 'src/include'
   # pod lib lint
-  # s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "/Users/u2systems/Desktop/MeCall/liblinphone-sdk/apple-darwin/include", "OTHER_LDFLAGS" => "-read_only_relocs suppress" }
+  # s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "/Users/u2systems/Desktop/MeCall/liblinphone-sdk/apple-darwin/include", "OTHER_LDFLAGS" => "-read_only_relocs suppress", "ENABLE_BITCODE" => "NO" }
 
   # Release
-    s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/liblinphone-sdk/apple-darwin/include", "OTHER_LDFLAGS" => "-read_only_relocs suppress" }
+    s.pod_target_xcconfig = { "HEADER_SEARCH_PATHS" => "${PODS_ROOT}/MeCall/liblinphone-sdk/apple-darwin/include", "OTHER_LDFLAGS" => "-read_only_relocs suppress", "ENABLE_BITCODE" => "NO" }
 
 
 end

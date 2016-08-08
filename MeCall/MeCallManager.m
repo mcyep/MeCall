@@ -29,11 +29,9 @@ static LinphoneCore* linphoneCore = nil;
 + (void)initialize
 {
     linphone_core_set_log_handler(mecall_log_handler);
-    [self setLogLevel:MCLogLevelDEBUG];
+    [self setLogLevel:MCLogLevelMESSAGE];
     
-    NSString *defaultConfig = [[NSBundle mainBundle] pathForResource:@"linphonerc" ofType:nil];
-    NSString *factoryConfig = [[NSBundle mainBundle] pathForResource:@"linphonerc-factory" ofType:nil];
-    linphoneCore = linphone_core_new(&linphonec_vtable, [defaultConfig UTF8String], [factoryConfig UTF8String], nil);
+    linphoneCore = linphone_core_new(&linphonec_vtable, NULL, NULL, NULL);
     
     MSFactory *f = linphone_core_get_ms_factory(linphoneCore);
     libmssilk_init(f);
@@ -43,9 +41,6 @@ static LinphoneCore* linphoneCore = nil;
     libmsbcg729_init(f);
     linphone_core_reload_ms_plugins(linphoneCore, NULL);
     
-    linphone_core_set_ring(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"notes_of_the_optimistic" ofType:@"caf"] UTF8String]);
-    linphone_core_set_ringback(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"ringback" ofType:@"wav"] UTF8String]);
-    linphone_core_set_play_file(linphoneCore, [[[NSBundle mainBundle] pathForResource:@"hold" ofType:@"mkv"] UTF8String]);
     linphone_core_enable_ipv6(linphoneCore, FALSE);
     
     [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(iterate) userInfo:nil repeats:YES];
@@ -132,20 +127,6 @@ static LinphoneCore* linphoneCore = nil;
     linphone_proxy_config_done(proxyCfg);
 }
 
-+ (MCRegistrationState)sipRegistrationState
-{
-    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
-    LinphoneRegistrationState state = linphone_proxy_config_get_state(proxyCfg);
-    return (MCRegistrationState)state;
-}
-
-+ (MCReason)sipRegistrationFailReason
-{
-    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
-    LinphoneReason reason = linphone_proxy_config_get_error(proxyCfg);
-    return (MCReason)reason;
-}
-
 + (void)acceptCall:(NSString*)remote
 {
     LinphoneCall *call = [self getCallWithRemote:remote];
@@ -215,6 +196,60 @@ static LinphoneCore* linphoneCore = nil;
     linphone_core_set_log_level((OrtpLogLevel)level);
 }
 
++ (void)setRingTone:(NSString*)path
+{
+    linphone_core_set_ring(linphoneCore, [path UTF8String]);
+}
+
++ (void)setRingbackTone:(NSString*)path
+{
+    linphone_core_set_ringback(linphoneCore, [path UTF8String]);
+}
+
++ (void)setHoldTone:(NSString*)path
+{
+    linphone_core_set_play_file(linphoneCore, [path UTF8String]);
+}
+
++ (void)enableIPv6:(BOOL)enable
+{
+    linphone_core_enable_ipv6(linphoneCore, enable);
+}
+
++ (void)setRootCA:(NSString*)path
+{
+    linphone_core_set_root_ca(linphoneCore, [path UTF8String]);
+}
+
++ (void)printAudioCodecSequence
+{
+    NSLog(@"Print Audio Codecs Sequence:");
+    for (const bctbx_list_t *elem=linphone_core_get_audio_codecs(linphoneCore); elem!=NULL; elem=elem->next)
+    {
+        PayloadType * pt=(PayloadType*)elem->data;
+        NSLog(@"mime_type: %s | clock_rate: %d | payload_type_number: %d | desc: %s | enabled: %@",
+              pt->mime_type,
+              pt->clock_rate,
+              linphone_core_get_payload_type_number(linphoneCore, pt),
+              linphone_core_get_payload_type_description(linphoneCore, pt),
+              linphone_core_payload_type_enabled(linphoneCore, pt)?@"Yes":@"No");
+    }
+}
+
++ (MCRegistrationState)sipRegistrationState
+{
+    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
+    LinphoneRegistrationState state = linphone_proxy_config_get_state(proxyCfg);
+    return (MCRegistrationState)state;
+}
+
++ (MCReason)sipRegistrationFailReason
+{
+    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
+    LinphoneReason reason = linphone_proxy_config_get_error(proxyCfg);
+    return (MCReason)reason;
+}
+
 static void mecall_log_handler(const char *domain, OrtpLogLevel lev, const char *fmt, va_list args)
 {
     NSString *format = [[NSString alloc] initWithUTF8String:fmt];
@@ -267,19 +302,5 @@ static LinphoneCoreVTable linphonec_vtable = {
     .call_encryption_changed = mecall_call_encryption_changed
 };
 
-+ (void)printAudioCodecSequence
-{
-    NSLog(@"Print Audio Codecs Sequence:");
-    for (const bctbx_list_t *elem=linphone_core_get_audio_codecs(linphoneCore); elem!=NULL; elem=elem->next)
-    {
-        PayloadType * pt=(PayloadType*)elem->data;
-        NSLog(@"mime_type: %s | clock_rate: %d | payload_type_number: %d | desc: %s | enabled: %@",
-              pt->mime_type,
-              pt->clock_rate,
-              linphone_core_get_payload_type_number(linphoneCore, pt),
-              linphone_core_get_payload_type_description(linphoneCore, pt),
-              linphone_core_payload_type_enabled(linphoneCore, pt)?@"Yes":@"No");
-    }
-}
 
 @end
