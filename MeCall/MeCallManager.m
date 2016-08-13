@@ -278,15 +278,23 @@ static dispatch_queue_t privateQueue = nil;
 
 + (MCRegistrationState)sipRegistrationState
 {
-    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
-    LinphoneRegistrationState state = linphone_proxy_config_get_state(proxyCfg);
+    __block LinphoneRegistrationState state = LinphoneRegistrationNone;
+    dispatch_sync(privateQueue, ^{
+        LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
+        if (proxyCfg != NULL)
+            state = linphone_proxy_config_get_state(proxyCfg);
+    });
     return (MCRegistrationState)state;
 }
 
 + (MCReason)sipRegistrationFailReason
 {
-    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
-    LinphoneReason reason = linphone_proxy_config_get_error(proxyCfg);
+    __block LinphoneReason reason = LinphoneReasonNone;
+    dispatch_sync(privateQueue, ^{
+        LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
+        if (proxyCfg != NULL)
+            reason = linphone_proxy_config_get_error(proxyCfg);
+    });
     return (MCReason)reason;
 }
 
