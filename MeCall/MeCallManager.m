@@ -25,14 +25,13 @@ extern void libmsopenh264_init(MSFactory *factory);
 extern void libmsbcg729_init(MSFactory *factory);
 
 static LinphoneCore* linphoneCore = nil;
+static dispatch_queue_t privateQueue = nil;
 
 + (void)initialize
 {
     linphone_core_set_log_handler(mecall_log_handler);
-    [self setLogLevel:MCLogLevelMESSAGE];
-    
+    linphone_core_set_log_level((OrtpLogLevel)MCLogLevelMESSAGE);
     linphoneCore = linphone_core_new(&linphonec_vtable, NULL, NULL, NULL);
-    
     MSFactory *f = linphone_core_get_ms_factory(linphoneCore);
     libmssilk_init(f);
     libmsamr_init(f);
@@ -40,139 +39,166 @@ static LinphoneCore* linphoneCore = nil;
     libmsopenh264_init(f);
     libmsbcg729_init(f);
     linphone_core_reload_ms_plugins(linphoneCore, NULL);
-    
     linphone_core_enable_ipv6(linphoneCore, FALSE);
-    
-    [NSTimer scheduledTimerWithTimeInterval:0.02 target:self selector:@selector(iterate) userInfo:nil repeats:YES];
+    privateQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
+    NSTimer *timer = [NSTimer timerWithTimeInterval:0.02 target:self selector:@selector(iterate) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:timer forMode:NSRunLoopCommonModes];
 }
 
-+ (void)iterate {
-    linphone_core_iterate(linphoneCore);
++ (void)iterate
+{
+    dispatch_async(privateQueue, ^{
+        linphone_core_iterate(linphoneCore);
+    });
 }
 
 + (void)setupProxyConfig:(NSString*)sipUsername sipPassword:(NSString*)sipPassword sipServer:(NSString*)sipServer sipIdentity:(NSString*)sipIdentity
 {
-    linphone_core_clear_proxy_config(linphoneCore);
-    linphone_core_clear_all_auth_info(linphoneCore);
-    linphone_core_set_primary_contact(linphoneCore, [sipIdentity UTF8String]);
-    LinphoneProxyConfig* proxyCfg = linphone_core_create_proxy_config(linphoneCore);
-    LinphoneAddress *identity = linphone_address_new([sipIdentity UTF8String]);
-    linphone_proxy_config_set_identity_address(proxyCfg, identity);
-    linphone_proxy_config_set_server_addr(proxyCfg, [sipServer UTF8String]);
-    linphone_proxy_config_set_route(proxyCfg, [sipServer UTF8String]);
-    linphone_proxy_config_set_expires(proxyCfg, 0);
-    linphone_proxy_config_enable_register(proxyCfg, false);
-    LinphoneAuthInfo* authInfo = linphone_auth_info_new([sipUsername UTF8String], NULL, [sipPassword UTF8String], NULL, NULL, linphone_proxy_config_get_domain(proxyCfg));
-    linphone_core_add_auth_info(linphoneCore, authInfo);
-    linphone_core_add_proxy_config(linphoneCore, proxyCfg);
-    linphone_core_set_default_proxy_config(linphoneCore, proxyCfg);
-    linphone_address_destroy(identity);
-    linphone_auth_info_destroy(authInfo);
+    dispatch_async(privateQueue, ^{
+        linphone_core_clear_proxy_config(linphoneCore);
+        linphone_core_clear_all_auth_info(linphoneCore);
+        linphone_core_set_primary_contact(linphoneCore, [sipIdentity UTF8String]);
+        LinphoneProxyConfig* proxyCfg = linphone_core_create_proxy_config(linphoneCore);
+        LinphoneAddress *identity = linphone_address_new([sipIdentity UTF8String]);
+        linphone_proxy_config_set_identity_address(proxyCfg, identity);
+        linphone_proxy_config_set_server_addr(proxyCfg, [sipServer UTF8String]);
+        linphone_proxy_config_set_route(proxyCfg, [sipServer UTF8String]);
+        linphone_proxy_config_set_expires(proxyCfg, 0);
+        linphone_proxy_config_enable_register(proxyCfg, false);
+        LinphoneAuthInfo* authInfo = linphone_auth_info_new([sipUsername UTF8String], NULL, [sipPassword UTF8String], NULL, NULL, linphone_proxy_config_get_domain(proxyCfg));
+        linphone_core_add_auth_info(linphoneCore, authInfo);
+        linphone_core_add_proxy_config(linphoneCore, proxyCfg);
+        linphone_core_set_default_proxy_config(linphoneCore, proxyCfg);
+        linphone_address_destroy(identity);
+        linphone_auth_info_destroy(authInfo);
+    });
 }
 
 + (void)setupSipTransport:(MCSipTransport)sipTransport sipPort:(int)sipPort userAgentName:(NSString*)userAgentName userAgentVersion:(NSString*)userAgentVersion
 {
-    LCSipTransports sipTransports = {0,0,0,0};
-    sipTransports.udp_port  = (sipTransport == MCSipTransportUDP)  ? sipPort : 0;
-    sipTransports.tcp_port  = (sipTransport == MCSipTransportTCP)  ? sipPort : 0;
-    sipTransports.tls_port  = (sipTransport == MCSipTransportTLS)  ? sipPort : 0;
-    sipTransports.dtls_port = (sipTransport == MCSipTransportDTLS) ? sipPort : 0;
-    linphone_core_set_sip_transports(linphoneCore, &sipTransports);
-    linphone_core_set_user_agent(linphoneCore, [userAgentName UTF8String], [userAgentVersion UTF8String]);
+    dispatch_async(privateQueue, ^{
+        LCSipTransports sipTransports = {0,0,0,0};
+        sipTransports.udp_port  = (sipTransport == MCSipTransportUDP)  ? sipPort : 0;
+        sipTransports.tcp_port  = (sipTransport == MCSipTransportTCP)  ? sipPort : 0;
+        sipTransports.tls_port  = (sipTransport == MCSipTransportTLS)  ? sipPort : 0;
+        sipTransports.dtls_port = (sipTransport == MCSipTransportDTLS) ? sipPort : 0;
+        linphone_core_set_sip_transports(linphoneCore, &sipTransports);
+        linphone_core_set_user_agent(linphoneCore, [userAgentName UTF8String], [userAgentVersion UTF8String]);
+    });
 }
 
 + (void)setupMediaTransport:(MCMediaTransport)mediaTransport audioPort:(int)audioPort
 {
-    LinphoneMediaEncryption encryption = (LinphoneMediaEncryption)mediaTransport;
-    linphone_core_set_media_encryption(linphoneCore, encryption);
-    linphone_core_set_audio_port(linphoneCore, audioPort);
+    dispatch_async(privateQueue, ^{
+        LinphoneMediaEncryption encryption = (LinphoneMediaEncryption)mediaTransport;
+        linphone_core_set_media_encryption(linphoneCore, encryption);
+        linphone_core_set_audio_port(linphoneCore, audioPort);
+    });
 }
 
 + (void)setupAudioCodec:(NSArray*)audioCodecs
 {
-    for (const bctbx_list_t *elem=linphone_core_get_audio_codecs(linphoneCore); elem!=NULL; elem=elem->next)
-        linphone_core_enable_payload_type(linphoneCore, elem->data, FALSE);
-    
-    bctbx_list_t *head = bctbx_list_copy(linphone_core_get_audio_codecs(linphoneCore));
-    for (NSString *codec in [audioCodecs reverseObjectEnumerator])
-    {
-        PayloadType *pt = linphone_core_find_payload_type(linphoneCore, [codec UTF8String], LINPHONE_FIND_PAYLOAD_IGNORE_RATE, LINPHONE_FIND_PAYLOAD_IGNORE_CHANNELS);
-        if (pt != NULL)
+    dispatch_async(privateQueue, ^{
+        for (const bctbx_list_t *elem=linphone_core_get_audio_codecs(linphoneCore); elem!=NULL; elem=elem->next)
+            linphone_core_enable_payload_type(linphoneCore, elem->data, FALSE);
+        
+        bctbx_list_t *head = bctbx_list_copy(linphone_core_get_audio_codecs(linphoneCore));
+        for (NSString *codec in [audioCodecs reverseObjectEnumerator])
         {
-            linphone_core_enable_payload_type(linphoneCore, pt, TRUE);
-            head = bctbx_list_remove(head, pt);
-            head = bctbx_list_prepend(head, pt);
+            PayloadType *pt = linphone_core_find_payload_type(linphoneCore, [codec UTF8String], LINPHONE_FIND_PAYLOAD_IGNORE_RATE, LINPHONE_FIND_PAYLOAD_IGNORE_CHANNELS);
+            if (pt != NULL)
+            {
+                linphone_core_enable_payload_type(linphoneCore, pt, TRUE);
+                head = bctbx_list_remove(head, pt);
+                head = bctbx_list_prepend(head, pt);
+            }
         }
-    }
-    linphone_core_set_audio_codecs(linphoneCore, head);
+        linphone_core_set_audio_codecs(linphoneCore, head);
+    });
 }
 
 + (void)startRegistering:(int)expire
 {
-    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
-    if (proxyCfg == NULL) return;
-    linphone_proxy_config_edit(proxyCfg);
-    linphone_proxy_config_set_expires(proxyCfg, expire);
-    linphone_proxy_config_enable_register(proxyCfg, true);
-    linphone_proxy_config_done(proxyCfg);
+    dispatch_async(privateQueue, ^{
+        LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
+        if (proxyCfg == NULL) return;
+        linphone_proxy_config_edit(proxyCfg);
+        linphone_proxy_config_set_expires(proxyCfg, expire);
+        linphone_proxy_config_enable_register(proxyCfg, true);
+        linphone_proxy_config_done(proxyCfg);
+    });
 }
 
 + (void)stopRegistering
 {
-    LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
-    if (proxyCfg == NULL) return;
-    linphone_proxy_config_edit(proxyCfg);
-    linphone_proxy_config_set_expires(proxyCfg, 0);
-    linphone_proxy_config_enable_register(proxyCfg, false);
-    linphone_proxy_config_done(proxyCfg);
+    dispatch_async(privateQueue, ^{
+        LinphoneProxyConfig* proxyCfg = linphone_core_get_default_proxy_config(linphoneCore);
+        if (proxyCfg == NULL) return;
+        linphone_proxy_config_edit(proxyCfg);
+        linphone_proxy_config_set_expires(proxyCfg, 0);
+        linphone_proxy_config_enable_register(proxyCfg, false);
+        linphone_proxy_config_done(proxyCfg);
+    });
 }
 
 + (void)acceptCall:(NSString*)remote
 {
-    LinphoneCall *call = [self getCallWithRemote:remote];
-    if (call != NULL) {
-        linphone_core_accept_call(linphoneCore, call);
-    }
+    dispatch_async(privateQueue, ^{
+        LinphoneCall *call = [self getCallWithRemote:remote];
+        if (call != NULL) {
+            linphone_core_accept_call(linphoneCore, call);
+        }
+    });
 }
 
 + (void)declineCall:(NSString*)remote reason:(MCReason)reason
 {
-    LinphoneCall *call = [self getCallWithRemote:remote];
-    if (call != NULL) {
-        linphone_core_decline_call(linphoneCore, call, (LinphoneReason)reason);
-    }
+    dispatch_async(privateQueue, ^{
+        LinphoneCall *call = [self getCallWithRemote:remote];
+        if (call != NULL) {
+            linphone_core_decline_call(linphoneCore, call, (LinphoneReason)reason);
+        }
+    });
 }
 
 + (void)terminateCall:(NSString*)remote
 {
-    LinphoneCall *call = [self getCallWithRemote:remote];
-    if (call != NULL) {
-        linphone_core_terminate_call(linphoneCore, call);
-    }
+    dispatch_async(privateQueue, ^{
+        LinphoneCall *call = [self getCallWithRemote:remote];
+        if (call != NULL) {
+            linphone_core_terminate_call(linphoneCore, call);
+        }
+    });
 }
 
 + (void)inviteCall:(NSString*)remote
 {
-    LinphoneAddress *address = linphone_core_interpret_url(linphoneCore, [remote UTF8String]);
-    if (address != NULL) {
-        linphone_core_invite_address(linphoneCore, address);
-    }
+    dispatch_async(privateQueue, ^{
+        LinphoneAddress *address = linphone_core_interpret_url(linphoneCore, [remote UTF8String]);
+        if (address != NULL) {
+            linphone_core_invite_address(linphoneCore, address);
+        }
+    });
 }
 
 + (void)pauseCall:(NSString*)remote
 {
-    LinphoneCall *call = [self getCallWithRemote:remote];
-    if (call != NULL) {
-        linphone_core_pause_call(linphoneCore, call);
-    }
+    dispatch_async(privateQueue, ^{
+        LinphoneCall *call = [self getCallWithRemote:remote];
+        if (call != NULL) {
+            linphone_core_pause_call(linphoneCore, call);
+        }
+    });
 }
 
 + (void)resumeCall:(NSString*)remote
 {
-    LinphoneCall *call = [self getCallWithRemote:remote];
-    if (call != NULL) {
-        linphone_core_resume_call(linphoneCore, call);
-    }
+    dispatch_async(privateQueue, ^{
+        LinphoneCall *call = [self getCallWithRemote:remote];
+        if (call != NULL) {
+            linphone_core_resume_call(linphoneCore, call);
+        }
+    });
 }
 
 + (LinphoneCall*)getCallWithRemote:(NSString*)remote
@@ -193,47 +219,61 @@ static LinphoneCore* linphoneCore = nil;
 
 + (void)setLogLevel:(MCLogLevel)level
 {
-    linphone_core_set_log_level((OrtpLogLevel)level);
+    dispatch_async(privateQueue, ^{
+        linphone_core_set_log_level((OrtpLogLevel)level);
+    });
 }
 
 + (void)setRingTone:(NSString*)path
 {
-    linphone_core_set_ring(linphoneCore, [path UTF8String]);
+    dispatch_async(privateQueue, ^{
+        linphone_core_set_ring(linphoneCore, [path UTF8String]);
+    });
 }
 
 + (void)setRingbackTone:(NSString*)path
 {
-    linphone_core_set_ringback(linphoneCore, [path UTF8String]);
+    dispatch_async(privateQueue, ^{
+        linphone_core_set_ringback(linphoneCore, [path UTF8String]);
+    });
 }
 
 + (void)setHoldTone:(NSString*)path
 {
-    linphone_core_set_play_file(linphoneCore, [path UTF8String]);
+    dispatch_async(privateQueue, ^{
+        linphone_core_set_play_file(linphoneCore, [path UTF8String]);
+    });
 }
 
 + (void)enableIPv6:(BOOL)enable
 {
-    linphone_core_enable_ipv6(linphoneCore, enable);
+    dispatch_async(privateQueue, ^{
+        linphone_core_enable_ipv6(linphoneCore, enable);
+    });
 }
 
 + (void)setRootCA:(NSString*)path
 {
-    linphone_core_set_root_ca(linphoneCore, [path UTF8String]);
+    dispatch_async(privateQueue, ^{
+        linphone_core_set_root_ca(linphoneCore, [path UTF8String]);
+    });
 }
 
 + (void)printAudioCodecSequence
 {
-    NSLog(@"Print Audio Codecs Sequence:");
-    for (const bctbx_list_t *elem=linphone_core_get_audio_codecs(linphoneCore); elem!=NULL; elem=elem->next)
-    {
-        PayloadType * pt=(PayloadType*)elem->data;
-        NSLog(@"mime_type: %s | clock_rate: %d | payload_type_number: %d | desc: %s | enabled: %@",
-              pt->mime_type,
-              pt->clock_rate,
-              linphone_core_get_payload_type_number(linphoneCore, pt),
-              linphone_core_get_payload_type_description(linphoneCore, pt),
-              linphone_core_payload_type_enabled(linphoneCore, pt)?@"Yes":@"No");
-    }
+    dispatch_async(privateQueue, ^{
+        NSLog(@"Print Audio Codecs Sequence:");
+        for (const bctbx_list_t *elem=linphone_core_get_audio_codecs(linphoneCore); elem!=NULL; elem=elem->next)
+        {
+            PayloadType * pt=(PayloadType*)elem->data;
+            NSLog(@"mime_type: %s | clock_rate: %d | payload_type_number: %d | desc: %s | enabled: %@",
+                  pt->mime_type,
+                  pt->clock_rate,
+                  linphone_core_get_payload_type_number(linphoneCore, pt),
+                  linphone_core_get_payload_type_description(linphoneCore, pt),
+                  linphone_core_payload_type_enabled(linphoneCore, pt)?@"Yes":@"No");
+        }
+    });
 }
 
 + (MCRegistrationState)sipRegistrationState
